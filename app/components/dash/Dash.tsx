@@ -3,22 +3,14 @@
 import { selectEntries } from "@/lib/features/counter/studentSlice";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import {
-  Box,
-  Card,
-  CardContent,
-  CardHeader,
-  Grid2,
-  Typography,
-} from "@mui/material";
+import { Box, Card, CardContent, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 export const Dash = () => {
   const dispatch = useAppDispatch();
 
   const entries = useAppSelector(selectEntries);
-
-  const columns: GridColDef<(typeof entries)[number]>[] = [
+  const columns: GridColDef<any>[] = [
     { field: "id", headerName: "ID", width: 100, flex: 1 },
     {
       field: "foreName",
@@ -69,11 +61,22 @@ export const Dash = () => {
               justifyContent: "center",
               alignItems: "center",
               pb: 2,
+              flex: 1,
             }}
           >
             <Typography variant="h4">Student List</Typography>
           </Box>
           <DataGrid
+            sx={{
+              maxHeight: { xs: "70vh", md: "unset" },
+              height: { xs: 350, md: "100%" },
+            }}
+            slotProps={{
+              loadingOverlay: {
+                variant: "skeleton",
+                noRowsVariant: "skeleton",
+              },
+            }}
             rows={entries}
             columns={columns}
             initialState={{
