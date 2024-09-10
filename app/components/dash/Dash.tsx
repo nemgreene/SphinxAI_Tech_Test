@@ -7,8 +7,6 @@ import { Box, Card, CardContent, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 export const Dash = () => {
-  const dispatch = useAppDispatch();
-
   const entries = useAppSelector(selectEntries);
   const columns: GridColDef<any>[] = [
     { field: "id", headerName: "ID", width: 100, flex: 1 },

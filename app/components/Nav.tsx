@@ -20,15 +20,12 @@ const links: Array<LinksInterface> = [
 
 export const Nav = () => {
   const pathname = usePathname();
+
   const [value, setValue] = React.useState(
     links.map((v) => v.url).indexOf(pathname) || 0
   );
 
   const router = useRouter();
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-    router.push(links[newValue].url);
-  };
 
   function a11yProps(index: number) {
     return {
@@ -36,6 +33,14 @@ export const Nav = () => {
       "aria-controls": `simple-tabpanel-${index}`,
     };
   }
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+    router.push(links[newValue].url);
+  };
+  React.useEffect(() => {
+    setValue(links.map((v) => v.url).indexOf(pathname) || 0);
+  }, [pathname]);
 
   return (
     <Box sx={{ width: "100%" }}>
