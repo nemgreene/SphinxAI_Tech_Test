@@ -11,21 +11,21 @@ export interface StudentEntry {
   form: string;
   send: boolean;
 }
-export interface CounterSliceState {
+export interface StudentSliceState {
   value: number;
   status: "idle" | "loading" | "failed";
   entries: StudentEntry[];
 }
 
-const initialState: CounterSliceState = {
+const initialState: StudentSliceState = {
   value: 0,
   status: "idle",
   entries: data,
 };
 
 // If you are not using async thunks you can use the standalone `createSlice`.
-export const counterSlice = createAppSlice({
-  name: "counter",
+export const studentSlice = createAppSlice({
+  name: "student",
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
@@ -43,15 +43,15 @@ export const counterSlice = createAppSlice({
   // You can define your selectors here. These selectors receive the slice
   // state as their first argument.
   selectors: {
-    selectCount: (counter) => counter.value,
-    selectStatus: (counter) => counter.status,
+    selectCount: (student) => student.value,
+    selectStatus: (student) => student.status,
     selectEntries: (store) => store.entries,
   },
 });
 
 // Action creators are generated for each case reducer function.
-export const { increment } = counterSlice.actions;
+export const { increment } = studentSlice.actions;
 
 // Selectors returned by `slice.selectors` take the root state as their first argument.
 export const { selectCount, selectStatus, selectEntries } =
-  counterSlice.selectors;
+  studentSlice.selectors;

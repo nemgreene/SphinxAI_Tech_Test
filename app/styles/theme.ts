@@ -6,6 +6,7 @@ const theme = createTheme({
   palette: {
     mode: "dark",
   },
+  typography: { fontSize: 18 },
 });
 
 export default theme;
