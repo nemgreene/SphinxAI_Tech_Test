@@ -2,14 +2,25 @@ import { createAppSlice } from "@/lib/createAppSlice";
 import type { AppThunk } from "@/lib/store";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
+import data from "./DummyData.json";
+
+export interface StudentEntry {
+  id: string;
+  foreName: string;
+  surName: string;
+  form: string;
+  send: boolean;
+}
 export interface CounterSliceState {
   value: number;
   status: "idle" | "loading" | "failed";
+  entries: StudentEntry[];
 }
 
 const initialState: CounterSliceState = {
   value: 0,
   status: "idle",
+  entries: data,
 };
 
 // If you are not using async thunks you can use the standalone `createSlice`.
@@ -34,6 +45,7 @@ export const counterSlice = createAppSlice({
   selectors: {
     selectCount: (counter) => counter.value,
     selectStatus: (counter) => counter.status,
+    selectEntries: (store) => store.entries,
   },
 });
 
@@ -41,4 +53,5 @@ export const counterSlice = createAppSlice({
 export const { increment } = counterSlice.actions;
 
 // Selectors returned by `slice.selectors` take the root state as their first argument.
-export const { selectCount, selectStatus } = counterSlice.selectors;
+export const { selectCount, selectStatus, selectEntries } =
+  counterSlice.selectors;
