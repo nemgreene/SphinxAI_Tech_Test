@@ -12,14 +12,10 @@ export interface StudentEntry {
   send: boolean;
 }
 export interface StudentSliceState {
-  value: number;
-  status: "idle" | "loading" | "failed";
   entries: StudentEntry[];
 }
 
 const initialState: StudentSliceState = {
-  value: 0,
-  status: "idle",
   entries: data,
 };
 
@@ -30,28 +26,45 @@ export const studentSlice = createAppSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: (create) => ({
-    increment: create.reducer((state) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      state.value += 1;
-    }),
+    addStudent: create.reducer(
+      (
+        state,
+        {
+          payload,
+        }: PayloadAction<{
+          foreName: string;
+          surName: string;
+          form: string;
+          send: boolean;
+        }>
+      ) => {
+        // Redux Toolkit allows us to write "mutating" logic in reducers. It
+        // doesn't actually mutate the state because it uses the Immer library,
+        // which detects changes to a "draft state" and produces a brand new
+        // immutable state based off those changes
+        let insert = {
+          ...payload,
+          id:
+            state.entries
+              .map((v) => v.id)
+              .sort()
+              .reverse()[0] + 1,
+        };
+        state.entries.push(insert);
+      }
+    ),
 
     // Use the `PayloadAction` type to declare the contents of `action.payload`
   }),
   // You can define your selectors here. These selectors receive the slice
   // state as their first argument.
   selectors: {
-    selectCount: (student) => student.value,
-    selectStatus: (student) => student.status,
     selectEntries: (store) => store.entries,
   },
 });
 
 // Action creators are generated for each case reducer function.
-export const { increment } = studentSlice.actions;
+export const { addStudent } = studentSlice.actions;
 
 // Selectors returned by `slice.selectors` take the root state as their first argument.
-export const { selectCount, selectStatus, selectEntries } =
-  studentSlice.selectors;
+export const { selectEntries } = studentSlice.selectors;
